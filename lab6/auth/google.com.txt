@@ -1,0 +1,6 @@
+drive.google.com 20.222.12.34
+mail.google.com 20.193.253.43
+www.google.com 20.20.20.21
+www.google.com 20.20.20.22
+www.google.com 20.20.20.23
+www.google.com 20.20.20.20

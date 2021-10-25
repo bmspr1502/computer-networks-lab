@@ -1,0 +1,4 @@
+yahoo.com 12.12.12.12
+facebook.com 14.14.14.14
+cricbuzz.com 13.13.13.13
+google.com 15.15.15.15

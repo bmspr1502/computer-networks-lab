@@ -114,7 +114,7 @@ void file_transfer(int client)
             newres.status = 404;
             strcpy(newres.msg, "Requested file not found.");
             send(clientfd, &newres, sizeof(newres), 0);
-            printf(">> To client: \n");
+            printf("\n>> To client: \n");
             printRes(&newres);
             continue;
         }
@@ -124,8 +124,21 @@ void file_transfer(int client)
             strcpy(newres.msg, "Requested file is found.");
             newres.PORTNO = FILEPORT;
             send(clientfd, &newres, sizeof(newres), 0);
-            printf(">> To client: \n");
+            printf("\n>> To client: \n");
             printRes(&newres);
+
+            fprintf(stdout, "Waiting confirmation.\n");
+
+            recv(clientfd, buffer, sizeof(buffer), 0);
+            if (strncmp(buffer, "ABORT", strlen("ABORT")) == 0)
+            {
+                fprintf(stdout, "Client aborted the transfer.\n");
+                continue;
+            }
+
+            read(fd, buffer, sizeof(buffer));
+            send(clientfd, buffer, strlen(buffer) + 1, 0);
+            fprintf(stdout, "Confirmation received and file sent.\n");
         }
     }
     close(clientfd);

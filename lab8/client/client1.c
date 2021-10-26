@@ -89,8 +89,28 @@ void file_transfer(long PORTNO)
         }
         send(socketfd, filename, strlen(filename) + 1, 0);
         recv(socketfd, &res, sizeof(res), 0);
-        printf("<< receiving from server@%d\n", PORTNO);
+        printf("\n<< receiving from server@%d\n", PORTNO);
         printRes(&res);
+
+        if (res.status == 200)
+        {
+            fprintf(stdout, "File found. Initiate Transfer [y/n] : ");
+            scanf(" %c", &cnfm);
+            if (cnfm == 'y')
+                send(socketfd, "CONFIRMED", strlen("CONFIRMED") + 1, 0);
+            else
+            {
+                send(socketfd, "ABORT", strlen("ABORT") + 1, 0);
+                continue;
+            }
+            recv(socketfd, buffer, sizeof(buffer), 0);
+            int fd = open(filename, O_CREAT | O_WRONLY);
+            write(fd, buffer, strlen(buffer) + 1);
+            close(fd);
+            fprintf(stdout, "FILE RECEIVED AND STORED LOCALLY.\n");
+            fprintf(stdout, "_____________FILE CONTENTS_______________\n");
+            fprintf(stdout, "%s\n", buffer);
+        }
     }
     close(socketfd);
     return;

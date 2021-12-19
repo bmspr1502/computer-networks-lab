@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.php": "php",
+        "*.lex": "lex",
+        "errno.h": "c"
+    }
+}
